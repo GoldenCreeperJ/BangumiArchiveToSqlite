@@ -6,7 +6,7 @@ output_path = './output/'
 sqlite_db_file = './dump.db'
 
 # Converter.yaml_to_json("./input","./MappingTable.json")
-with open("MappingTable.json", "r", encoding="utf-8") as f:
+with open("util/MappingTable.json", "r", encoding="utf-8") as f:
     mapping_table = json.load(f)
 
 conn = sqlite3.connect(sqlite_db_file)
