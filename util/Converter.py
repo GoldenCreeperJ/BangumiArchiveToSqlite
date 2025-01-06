@@ -1,6 +1,6 @@
 import json
 import yaml
-from Parser import Wiki
+from util.Parser import Wiki
 
 
 def jsonl_to_json(input_file, output_file):
@@ -32,9 +32,9 @@ def yaml_to_json(input_path, output_file):
     with open(input_path + "/subject_staffs.yml", 'r', encoding='utf-8') as f:
         staffs = yaml.safe_load(f)
     result = {
-        "book_series": {1: "系列", 0: "单行本"},
+        "book_series": {0: "单行本", 1: "系列"},
         "subject_types": {1: "漫画", 2: "动画", 3: "音乐", 4: "游戏", 6: "三次元"},
-        "person_types": {1: "个人", 2: "公司", 3: "组合"},
+        "person_types": {0: "未知", 1: "个人", 2: "公司", 3: "组合"},
         "character_role": {1: "角色", 2: "机体", 3: "组织", 4: "标志"},
         "episode_types": {0: "正篇", 1: "特别篇", 2: "OP", 3: "ED", 4: "Trailer", 5: "MAD", 6: "其他"},
         "character_types": {1: "主角", 2: "配角", 3: "客串"},

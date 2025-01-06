@@ -1,5 +1,5 @@
 import json
-import Converter
+import util.Converter as Converter
 
 
 def insert_subject(conn, cursor, input_path, mapping_table):
@@ -21,6 +21,7 @@ def insert_subject(conn, cursor, input_path, mapping_table):
             favorite TEXT,
             series TEXT)''')
     cursor.execute('''DELETE FROM subject; ''')
+    conn.commit()
     cursor.execute('''VACUUM;''')
 
     with open(input_path + "subject.jsonlines", 'r', encoding='utf-8') as f:
@@ -34,8 +35,9 @@ def insert_subject(conn, cursor, input_path, mapping_table):
                             item['name_cn'] if item['name_cn'] else item['name'],
                             Converter.infoBox_to_json(item['infobox']),
                             mapping_table["subject_platforms"][str(item['type'])][str(item['platform'])],
-                            item["summary"], item["nsfw"], json.dumps(item["tags"]), item["score"],
-                            json.dumps(item["score_details"]), item["rank"], item["date"], json.dumps(item["favorite"]),
+                            item["summary"], item["nsfw"], json.dumps(item["tags"], ensure_ascii=False), item["score"],
+                            json.dumps(item["score_details"], ensure_ascii=False), item["rank"], item["date"],
+                            json.dumps(item["favorite"], ensure_ascii=False),
                             mapping_table["book_series"]["1" if item["series"] else "0"] if item['type'] == 1 else ""))
     conn.commit()
 
@@ -51,6 +53,7 @@ def insert_character(conn, cursor, input_path, mapping_table):
             comments INTEGER,
             collects INTEGER)''')
     cursor.execute('''DELETE FROM character; ''')
+    conn.commit()
     cursor.execute('''VACUUM;''')
 
     with open(input_path + "character.jsonlines", 'r', encoding='utf-8') as f:
@@ -77,6 +80,7 @@ def insert_person(conn, cursor, input_path, mapping_table):
             comments INTEGER,
             collects INTEGER)''')
     cursor.execute('''DELETE FROM person; ''')
+    conn.commit()
     cursor.execute('''VACUUM;''')
 
     with open(input_path + "person.jsonlines", 'r', encoding='utf-8') as f:
@@ -86,7 +90,7 @@ def insert_person(conn, cursor, input_path, mapping_table):
             cursor.execute('''
                 INSERT INTO person(id,name,type,career,infobox,summary,comments,collects) VALUES (?,?,?,?,?,?,?,?)''',
                            (item['id'], item['name'], mapping_table["person_types"][str(item['type'])],
-                            json.dumps(item['career']), Converter.infoBox_to_json(item['infobox']),
+                            json.dumps(item['career'], ensure_ascii=False), Converter.infoBox_to_json(item['infobox']),
                             item["summary"], item["comments"], item["collects"]))
     conn.commit()
 
@@ -103,8 +107,10 @@ def insert_episode(conn, cursor, input_path, mapping_table):
             duration TEXT,
             subject_id INTEGER,
             sort INTEGER,
-            type TEXT)''')
+            type TEXT,
+            FOREIGN KEY (subject_id) REFERENCES subject(id))''')
     cursor.execute('''DELETE FROM episode; ''')
+    conn.commit()
     cursor.execute('''VACUUM;''')
 
     with open(input_path + "episode.jsonlines", 'r', encoding='utf-8') as f:
@@ -125,8 +131,11 @@ def insert_subject_character(conn, cursor, input_path, mapping_table):
             character_id INTEGER,
             subject_id INTEGER,
             type TEXT,
-            "order" INTEGER)''')
+            "order" INTEGER,
+            FOREIGN KEY (character_id) REFERENCES character(id),
+            FOREIGN KEY (subject_id) REFERENCES subject(id))''')
     cursor.execute('''DELETE FROM subject_character; ''')
+    conn.commit()
     cursor.execute('''VACUUM;''')
 
     with open(input_path + "subject-characters.jsonlines", 'r', encoding='utf-8') as f:
@@ -145,8 +154,11 @@ def insert_subject_person(conn, cursor, input_path, mapping_table):
         CREATE TABLE IF NOT EXISTS subject_person (
             person_id INTEGER,
             subject_id INTEGER,
-            position TEXT)''')
+            position TEXT,
+            FOREIGN KEY (person_id) REFERENCES person(id),
+            FOREIGN KEY (subject_id) REFERENCES subject(id))''')
     cursor.execute('''DELETE FROM subject_person; ''')
+    conn.commit()
     cursor.execute('''VACUUM;''')
 
     with open(input_path + "subject-persons.jsonlines", 'r', encoding='utf-8') as f:
@@ -166,8 +178,11 @@ def insert_subject_relation(conn, cursor, input_path, mapping_table):
             subject_id INTEGER,
             relation_type TEXT,
             related_subject_id INTEGER,
-            "order" INTEGER)''')
+            "order" INTEGER,
+            FOREIGN KEY (subject_id) REFERENCES subject(id),
+            FOREIGN KEY (related_subject_id) REFERENCES subject(id))''')
     cursor.execute('''DELETE FROM subject_relation; ''')
+    conn.commit()
     cursor.execute('''VACUUM;''')
 
     with open(input_path + "subject-relations.jsonlines", 'r', encoding='utf-8') as f:
@@ -187,8 +202,12 @@ def insert_person_character(conn, cursor, input_path):
             person_id INTEGER,
             subject_id INTEGER,
             character_id INTEGER,
-            summary TEXT)''')
+            summary TEXT,
+            FOREIGN KEY (person_id) REFERENCES person(id),
+            FOREIGN KEY (subject_id) REFERENCES subject(id),
+            FOREIGN KEY (character_id) REFERENCES character(id))''')
     cursor.execute('''DELETE FROM person_character; ''')
+    conn.commit()
     cursor.execute('''VACUUM;''')
 
     with open(input_path + "person-characters.jsonlines", 'r', encoding='utf-8') as f:
@@ -199,4 +218,3 @@ def insert_person_character(conn, cursor, input_path):
                 INSERT INTO person_character(person_id,subject_id,character_id, summary) VALUES (?,?,?,?)''',
                            (item["person_id"], item["subject_id"], item["character_id"], item["summary"]))
     conn.commit()
-
