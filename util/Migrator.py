@@ -20,6 +20,8 @@ def insert_subject(conn, cursor, input_path, mapping_table):
             date TEXT,
             favorite TEXT,
             series TEXT)''')
+    cursor.execute('''DELETE FROM subject; ''')
+    cursor.execute('''VACUUM;''')
 
     with open(input_path + "subject.jsonlines", 'r', encoding='utf-8') as f:
         for line in f:
@@ -48,6 +50,8 @@ def insert_character(conn, cursor, input_path, mapping_table):
             summary TEXT,
             comments INTEGER,
             collects INTEGER)''')
+    cursor.execute('''DELETE FROM character; ''')
+    cursor.execute('''VACUUM;''')
 
     with open(input_path + "character.jsonlines", 'r', encoding='utf-8') as f:
         for line in f:
@@ -72,6 +76,8 @@ def insert_person(conn, cursor, input_path, mapping_table):
             summary TEXT,
             comments INTEGER,
             collects INTEGER)''')
+    cursor.execute('''DELETE FROM person; ''')
+    cursor.execute('''VACUUM;''')
 
     with open(input_path + "person.jsonlines", 'r', encoding='utf-8') as f:
         for line in f:
@@ -98,6 +104,8 @@ def insert_episode(conn, cursor, input_path, mapping_table):
             subject_id INTEGER,
             sort INTEGER,
             type TEXT)''')
+    cursor.execute('''DELETE FROM episode; ''')
+    cursor.execute('''VACUUM;''')
 
     with open(input_path + "episode.jsonlines", 'r', encoding='utf-8') as f:
         for line in f:
@@ -118,6 +126,8 @@ def insert_subject_character(conn, cursor, input_path, mapping_table):
             subject_id INTEGER,
             type TEXT,
             "order" INTEGER)''')
+    cursor.execute('''DELETE FROM subject_character; ''')
+    cursor.execute('''VACUUM;''')
 
     with open(input_path + "subject-characters.jsonlines", 'r', encoding='utf-8') as f:
         for line in f:
@@ -136,6 +146,8 @@ def insert_subject_person(conn, cursor, input_path, mapping_table):
             person_id INTEGER,
             subject_id INTEGER,
             position TEXT)''')
+    cursor.execute('''DELETE FROM subject_person; ''')
+    cursor.execute('''VACUUM;''')
 
     with open(input_path + "subject-persons.jsonlines", 'r', encoding='utf-8') as f:
         for line in f:
@@ -155,6 +167,8 @@ def insert_subject_relation(conn, cursor, input_path, mapping_table):
             relation_type TEXT,
             related_subject_id INTEGER,
             "order" INTEGER)''')
+    cursor.execute('''DELETE FROM subject_relation; ''')
+    cursor.execute('''VACUUM;''')
 
     with open(input_path + "subject-relations.jsonlines", 'r', encoding='utf-8') as f:
         for line in f:
@@ -174,6 +188,8 @@ def insert_person_character(conn, cursor, input_path):
             subject_id INTEGER,
             character_id INTEGER,
             summary TEXT)''')
+    cursor.execute('''DELETE FROM person_character; ''')
+    cursor.execute('''VACUUM;''')
 
     with open(input_path + "person-characters.jsonlines", 'r', encoding='utf-8') as f:
         for line in f:
