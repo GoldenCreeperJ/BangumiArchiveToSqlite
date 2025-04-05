@@ -4,8 +4,8 @@ This is a tool to convert the Bangumi Archive to Sqlite database.
 
 ### References:
 - [BangumiArchiveExplain](https://github.com/Livinfly/BangumiArchiveExplain/tree/7310d74797977d3a8e8e4c9092b13158eb333cd9)
-- [Archive](https://github.com/bangumi/Archive/tree/3b23085749f4759c3a3a1ce533d8bc658a745c65) 
-- [wiki-parser-py](https://github.com/bangumi/wiki-parser-py/tree/56a85a4c6e55d3f68fe5a522affd5aa9570ba217)
-- [common](https://github.com/bangumi/common/tree/7bc4582667aac17824bbe89f420d6f55b26e8a25)
-- [server](https://github.com/bangumi/server/tree/1ce12360ed2d782d73e123eaf5ffc3fdedc22c27)
-- [dump](https://github.com/bangumi/Archive/releases/download/archive/dump-2024-12-31.210228Z.zip)
+- [Archive](https://github.com/bangumi/Archive/tree/d57e0ed1ae8c3105d37415db08f3ce20457fcf3c) 
+- [wiki-parser-py](https://github.com/bangumi/wiki-parser-py/tree/8f97d80281be00c152d2a0a6718e88754a9c0a8f)
+- [common](https://github.com/bangumi/common/tree/c2f36af3dc73fbbf70fe750c7f1f8d2f5dc3941d)
+- [server](https://github.com/bangumi/server/tree/41867328576bd0cd87048e0ff0c93f28f1ed195b)
+- [dump](https://github.com/bangumi/Archive/releases/download/archive/dump-2025-04-01.210252Z.zip)

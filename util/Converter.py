@@ -23,7 +23,6 @@ def yaml_to_json(input_path, output_file):
     """
     Convert a YAML file to a JSON file.
     Some lack information is added manually from the source code of below link.
-    https://github.com/bangumi/server/blob/e6bd50603517699e4b9806e4e192e709e47d9de5/pkg/vars/staff.go.json
     """
     with open(input_path + "/subject_platforms.yml", 'r', encoding='utf-8') as f:
         platforms = yaml.safe_load(f)
@@ -42,8 +41,6 @@ def yaml_to_json(input_path, output_file):
         "subject_relations": {j: k['cn'] for i in relations['relations'].values() for j, k in i.items()},
         "subject_staffs": {j: k['cn'] for i in staffs['staffs'].values() for j, k in i.items()}}
     result["subject_platforms"][3] = {0: "其他"}
-    result["subject_staffs"][89] = "主演出"
-    result["subject_staffs"][91] = "演出助理"
     result["subject_relations"][4018] = "未知"
     result["subject_relations"][4019] = "未知"
     with open(output_file, 'w', encoding='utf-8') as f:

@@ -1,5 +1,5 @@
 # This file is modified from the source code of below link, and only keep the minimum code to parse the Infobox.
-# https://github.com/bangumi/wiki-parser-py/blob/99525731e4c1de658186a180ff40b9b7da655905/src/bgm_tv_wiki/__init__.py
+# https://github.com/bangumi/wiki-parser-py/blob/56a85a4c6e55d3f68fe5a522affd5aa9570ba217/src/bgm_tv_wiki/__init__.py
 
 from __future__ import annotations
 import dataclasses
