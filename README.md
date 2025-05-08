@@ -2,10 +2,15 @@
 
 This is a tool to convert the Bangumi Archive to Sqlite database.
 
+## Usage
+Download necessary files from Bangumi Archive and common repository, and put them in the input directory.  
+Run the main.py to start the conversion,some useful json files will be generated in the output directory.  
+Read Summary.md, Converter.py's comments and generated MappingTable.json for more transformation details.  
+
 ### References:
 - [BangumiArchiveExplain](https://github.com/Livinfly/BangumiArchiveExplain/tree/7310d74797977d3a8e8e4c9092b13158eb333cd9)
-- [Archive](https://github.com/bangumi/Archive/tree/d57e0ed1ae8c3105d37415db08f3ce20457fcf3c) 
-- [wiki-parser-py](https://github.com/bangumi/wiki-parser-py/tree/8f97d80281be00c152d2a0a6718e88754a9c0a8f)
-- [common](https://github.com/bangumi/common/tree/c2f36af3dc73fbbf70fe750c7f1f8d2f5dc3941d)
-- [server](https://github.com/bangumi/server/tree/41867328576bd0cd87048e0ff0c93f28f1ed195b)
-- [dump](https://github.com/bangumi/Archive/releases/download/archive/dump-2025-04-01.210252Z.zip)
+- [Archive](https://github.com/bangumi/Archive/tree/fa371436441a6eba6e7f1e3854b403d3ac6a4abd) 
+- [wiki-parser-py](https://github.com/bangumi/wiki-parser-py/tree/d36c8459eef2211878ea72f991190f566f536216)
+- [common](https://github.com/bangumi/common/tree/9568390b7bfd7bdf14c662fe8f28256654ed2983)
+- [server](https://github.com/bangumi/server/tree/2bc7eefa9f04433098d538e4051c19b19e928a2e)
+- [dump](https://github.com/bangumi/Archive/releases/download/archive/dump-2025-05-06.210255Z.zip)
