@@ -20,7 +20,7 @@ def insert_subject(conn, cursor, input_path):
             rank INTEGER,
             date TEXT,
             favorite TEXT,
-            series BOOLEAN,
+            series INTEGER,
             rating INTEGER,
             status INTEGER)''')
     cursor.execute("SELECT id,rating,status FROM subject")
@@ -40,7 +40,8 @@ def insert_subject(conn, cursor, input_path):
                            Converter.infoBox_to_json(item['infobox']), item['platform'], item["summary"], item["nsfw"],
                            json.dumps(item["tags"], ensure_ascii=False), json.dumps(item["meta_tags"], ensure_ascii=False),
                            item["score"], json.dumps(item["score_details"], ensure_ascii=False), item["rank"],
-                           item["date"], json.dumps(item["favorite"], ensure_ascii=False), item["series"],
+                           item["date"], json.dumps(item["favorite"], ensure_ascii=False),
+                           (1 if item["series"] else 0) if item[type] == 1 else 2,
                            rows.get(int(item['id']), [0])[0], rows.get(int(item['id']), [0, 0])[1]))
 
             conn.commit()

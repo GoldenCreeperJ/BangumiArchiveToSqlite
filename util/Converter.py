@@ -33,7 +33,9 @@ def yaml_to_json(input_path, output_file):
     with open(input_path + "/subject_staffs.yml", 'r', encoding='utf-8') as f:
         staffs = yaml.safe_load(f)
     result = {
-        "book_series": {0: "单行本", 1: "系列"},  # Subject series
+        "rating": {0: "未知", 1: "烂作", 2: "庸作", 3: "佳作", 4: "神作"},  # Subject rating
+        "status": {0:  "未看", 1: "想看", 2: "在看", 3: "已看", 4: "弃看"},  # Subject status
+        "book_series": {0: "单行本", 1: "系列", 2: ""},  # Subject series
         "subject_types": {1: "漫画", 2: "动画", 3: "音乐", 4: "游戏", 6: "三次元"},  # Subject type
         "person_types": {0: "未知", 1: "个人", 2: "公司", 3: "组合"},  # Person type
         "character_role": {1: "角色", 2: "机体", 3: "组织", 4: "标志"},  # Character role
