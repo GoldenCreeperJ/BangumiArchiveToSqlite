@@ -11,13 +11,13 @@
 | Summary      | string                           | 简介                   |
 | Nsfw         | bool                             | not safe for work    |
 | Tags         | [{string:string, string:number}] | 公共标签                 |
+| meta_tags    | string                           | 公共标签                 |
 | Score        | number                           | 评分                   |
 | ScoreDetails | [{string:number}]                | 评分细节                 |
 | Rank         | number                           | 类别内排名                |
 | Date         | string                           | 发行日期                 |
 | Favorite     | [{string:number}]                | 收藏状态（想看、看过、在看、搁置、抛弃） |
 | Series       | bool*                            | 系列（单行本？）             |
-| meta_tags    | string                           | 公共标签                 |
 
 ##### **Person(人物)**
 

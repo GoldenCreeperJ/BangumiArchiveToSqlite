@@ -1,34 +1,26 @@
 import sqlite3
-from util.Migrator import *
+from util import Converter, CustomizedMigrator, StandardMigrator
 
-input_path = './input/'
-output_path = './output/'
-sqlite_db_file = './dump.db'
+if __name__ == '__main__':
+    if input("Start the Conversion process?(Y/n)").strip().lower() in ["", "y", "yes"]:
+        Converter.jsonl_to_json()
 
-Converter.jsonl_to_json(input_path + "subject.jsonlines", output_path + "subject.json")
-Converter.jsonl_to_json(input_path + "person.jsonlines", output_path + "person.json")
-Converter.jsonl_to_json(input_path + "episode.jsonlines", output_path + "episode.json")
-Converter.jsonl_to_json(input_path + "character.jsonlines", output_path + "character.json")
-Converter.jsonl_to_json(input_path + "subject-persons.jsonlines", output_path + "subject_person.json")
-Converter.jsonl_to_json(input_path + "subject-characters.jsonlines", output_path + "subject_character.json")
-Converter.jsonl_to_json(input_path + "subject-relations.jsonlines", output_path + "subject_relation.json")
-Converter.jsonl_to_json(input_path + "person-characters.jsonlines", output_path + "person_character.json")
-Converter.yaml_to_json("./input", "./util/MappingTable.json")
+    if input("Start the Mapping process?(Y/n)").strip().lower() in ["", "y", "yes"]:
+        Converter.yaml_to_json()
 
-print("\nJSON files created successfully\n")
+    if input("Start the SQLite migration process?(Y/n)").strip().lower() in ["", "y", "yes"]:
+        sqlite_db_file = f'./output/{input("SQLite database file path (default: dump): ").strip() or "dump"}.db'
+        match input('''Migration mode (default: Personal): \n1. Standard\n2. Mini\n3. Personal\n''').strip().lower():
+            case "1" | "standard" | "s":
+                migrator = StandardMigrator.StandardMigrator
+            case "2" | "mini" | "m":
+                migrator = CustomizedMigrator.MiniMigrator
+            case "3" | "personal" | "p" | "":
+                migrator = CustomizedMigrator.PersonalMigrator
+            case _:
+                print("Invalid migration mode, exiting...")
+                exit()
 
-conn = sqlite3.connect(sqlite_db_file)
-cursor = conn.cursor()
-
-insert_subject(conn, cursor, input_path)
-insert_person(conn, cursor, input_path)
-insert_episode(conn, cursor, input_path)
-insert_character(conn, cursor, input_path)
-insert_subject_person(conn, cursor, input_path)
-insert_subject_character(conn, cursor, input_path)
-insert_subject_relation(conn, cursor, input_path)
-insert_person_character(conn, cursor, input_path)
-
-conn.close()
-
-print("\nAll tables created successfully\n")
+        with sqlite3.connect(sqlite_db_file) as conn:
+            cursor = conn.cursor()
+            migrator.insert(conn, cursor, migrator)
