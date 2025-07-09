@@ -1,4 +1,4 @@
-# This file is modified from the source code of below link, and only keep the minimum code to parse the Infobox.
+# 本文件基于下方链接源码修改，仅保留Infobox解析的最简实现
 # https://github.com/bangumi/wiki-parser-py/blob/e06c9571ba6c30ecf630cca65f939db513ee923d/src/bgm_tv_wiki/__init__.py
 
 from __future__ import annotations

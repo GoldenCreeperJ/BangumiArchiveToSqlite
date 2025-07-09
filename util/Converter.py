@@ -5,8 +5,8 @@ from util.Parser import Wiki
 
 def yaml_to_json():
     """
-    Convert a YAML file to a JSON file.
-    Some lack information is added manually.
+        将YAML文件转换为JSON文件
+        部分缺失信息需手动补充
     """
     with open("./input/subject_platforms.yml", 'r', encoding='utf-8') as f:
         platforms = yaml.safe_load(f)
@@ -22,7 +22,7 @@ def yaml_to_json():
         "person_types": {0: "未知", 1: "个人", 2: "公司", 3: "组合"},  # Person type
         "character_role": {1: "角色", 2: "机体", 3: "舰船", 4: "组织机构"},  # Character role
         "episode_types": {0: "正篇", 1: "特别篇", 2: "OP", 3: "ED", 4: "Trailer", 5: "MAD", 6: "其他"},  # Episode type
-        "character_types": {1: "主角", 2: "配角", 3: "客串", 4: "闲角", 5: "旁白"},  # Subject-Character type
+        "character_types": {1: "主角", 2: "配角", 3: "客串", 4: "闲角", 5: "旁白", 6: "声库"},  # Subject-Character type
         "subject_platforms": {i: {j: k['type_cn'] for j, k in platforms['platforms'][i].items()} for i in (1, 2, 4, 6)},  # Subject platform
         "subject_relations": {j: k['cn'] for i in relations['relations'].values() for j, k in i.items()},  # Subject-Relation relation-type
         "subject_staffs": {j: k['cn'] for i in staffs['staffs'].values() for j, k in i.items()}}  # Subject-Person position
@@ -63,18 +63,18 @@ def yaml_to_json():
                     try:
                         handler(item)
                     except Exception as e:
-                        print(f"{filename} mapping failed:", e)
+                        print(f'{filename} 映射失败：{e}')
 
     with open("./util/MappingTable.json", 'w', encoding='utf-8') as f:
         json.dump(result, f, ensure_ascii=False, indent=4)
 
-    print("\nMapping table created\n")
+    print("\n映射表创建完成\n")
 
 
 def jsonl_to_json():
     """
-    Convert a JSONL file to a JSON file.
-    In order to use the json's table view
+        将JSONL文件转换为JSON文件
+        以便使用JSON的表格视图功能
     """
     for filename in ["subject", "character", "person", "episode", "subject-characters",
                      "subject-persons", "subject-relations", "person-characters"]:
@@ -88,9 +88,9 @@ def jsonl_to_json():
         with open(f"./output/{filename}.json", 'w', encoding='utf-8') as f:
             json.dump(json_array, f, ensure_ascii=False, indent=4)
 
-        print(f"Converted {filename}")
+        print(f"已转换 {filename}")
 
-    print("\nConverted JSON files created\n")
+    print("\nJSON文件转换完成\n")
 
 
 def infoBox_to_json(s: str) -> str:
