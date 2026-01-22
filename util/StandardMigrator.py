@@ -161,11 +161,13 @@ class StandardMigrator:
             'person_id INTEGER',
             'subject_id INTEGER',
             'position INTEGER',
+            'appear_eps TEXT',
             'FOREIGN KEY (person_id) REFERENCES person(id)',
             'FOREIGN KEY (subject_id) REFERENCES subject(id)'
         ], lambda item: (item['person_id'],
                          item['subject_id'],
-                         item['position']
+                         item['position'],
+                         item['appear_eps']
                          ))
 
     def insert_subject_relation(self, conn):

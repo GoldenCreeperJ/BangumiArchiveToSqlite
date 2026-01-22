@@ -24,8 +24,8 @@
 
 ## 相关资源链接
 - [BangumiArchiveExplain](https://github.com/Livinfly/BangumiArchiveExplain/tree/7310d74797977d3a8e8e4c9092b13158eb333cd9)
-- [Archive](https://github.com/bangumi/Archive/tree/114cb0ff036145b7458e7136abd32f0cdaf7e52b) 
-- [wiki-parser-py](https://github.com/bangumi/wiki-parser-py/tree/d1f1eb7b0dda8e8ce25c34a17300e427c9bd241b)
-- [common](https://github.com/bangumi/common/tree/85904677af13a7b70789c5892369ae49e8ae6f47)
-- [server](https://github.com/bangumi/server/tree/3ef2cf0d557d71fa2e9957cf703aec6c7607f340)
-- [测试用数据快照](https://github.com/bangumi/Archive/releases/download/archive/dump-2025-07-08.210304Z.zip)
+- [Archive](https://github.com/bangumi/Archive/tree/78d0bc791fc47f4385a708ed8c8a29d748301611) 
+- [wiki-parser-py](https://github.com/bangumi/wiki-parser-py/tree/e5fdb584573265359ecae5fcad6dd279ffbfd59e)
+- [common](https://github.com/bangumi/common/tree/6a8442c17143a870357a5ff812362e8b5cfe9f9d)
+- [server](https://github.com/bangumi/server/tree/4a555f9ee07c794062b3b38387db6023cc5e6ca4)
+- [测试用数据快照](https://github.com/bangumi/Archive/releases/download/archive/dump-2026-01-20.210310Z.zip)

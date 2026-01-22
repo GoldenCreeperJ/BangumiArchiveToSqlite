@@ -11,7 +11,9 @@ def yaml_to_json():
     with open("./input/subject_platforms.yml", 'r', encoding='utf-8') as f:
         platforms = yaml.safe_load(f)
     with open("./input/subject_relations.yml", 'r', encoding='utf-8') as f:
-        relations = yaml.safe_load(f)
+        subjectRelations = yaml.safe_load(f)
+    with open("./input/person_relations.yml", 'r', encoding='utf-8') as f:
+        personRelations = yaml.safe_load(f)
     with open("./input/subject_staffs.yml", 'r', encoding='utf-8') as f:
         staffs = yaml.safe_load(f)
     result = {
@@ -24,8 +26,12 @@ def yaml_to_json():
         "episode_types": {0: "正篇", 1: "特别篇", 2: "OP", 3: "ED", 4: "Trailer", 5: "MAD", 6: "其他"},  # Episode type
         "character_types": {1: "主角", 2: "配角", 3: "客串", 4: "闲角", 5: "旁白", 6: "声库"},  # Subject-Character type
         "subject_platforms": {i: {j: k['type_cn'] for j, k in platforms['platforms'][i].items()} for i in (1, 2, 4, 6)},  # Subject platform
-        "subject_relations": {j: k['cn'] for i in relations['relations'].values() for j, k in i.items()},  # Subject-Relation relation-type
-        "subject_staffs": {j: k['cn'] for i in staffs['staffs'].values() for j, k in i.items()}}  # Subject-Person position
+        "subject_relations": {j: k['cn'] for i in subjectRelations['relations'].values() for j, k in i.items()},  # Subject-Relation relation-type
+        "subject_staffs": {j: k['cn'] for i in staffs['staffs'].values() for j, k in i.items()},  # Subject-Person position
+        "person_relations": {j: k['cn'] for j, k in personRelations['relations']['prsn'].items()},  # Person-Relation relation-type
+        "character_relations": {j: k['cn'] for j, k in personRelations['relations']['crt'].items()},  # Subject-Character relation-type
+        "cv_relations": {j: k['cn'] for j, k in personRelations['relations']['prsn_cv'].items()},  # Person-Character relation-type
+    }
     result["subject_platforms"][3] = {0: "其他"}
     result["subject_relations"][4013] = "其他"
 

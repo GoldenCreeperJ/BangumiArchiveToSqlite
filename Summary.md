@@ -79,11 +79,12 @@
 
 ##### **SubjectPerson(作品-人物)**
 
-|           |         |      |
-|-----------|---------|------|
-| PersonID  | number  |      |
-| SubjectID | number  |      |
-| Position  | number* | 担任职位 |
+|            |         |         |
+|------------|---------|---------|
+| PersonID   | number  |         |
+| SubjectID  | number  |         |
+| Position   | number* | 担任职位    |
+| appear_eps | string  | 角色出场的剧集 |
 
 ##### **PersonCharacter(人物-角色)**
 
