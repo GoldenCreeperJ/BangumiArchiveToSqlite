@@ -1,7 +1,9 @@
 import sqlite3
+from pathlib import Path
 from util import Converter, CustomizedMigrator, StandardMigrator
 
 if __name__ == '__main__':
+    Path("./output").mkdir(parents=True, exist_ok=True)
     if input("开始转换流程? (Y/n)").strip().lower() in ["", "y", "yes"]:
         Converter.jsonl_to_json()
 
@@ -9,7 +11,7 @@ if __name__ == '__main__':
         Converter.yaml_to_json()
 
     if input("开始SQLite迁移流程? (Y/n)").strip().lower() in ["", "y", "yes"]:
-        sqlite_db_file = f'./output/{input("SQLite数据库文件路径(默认: dump): ").strip() or "dump"}.db'
+        sqlite_db_file = f'./output/{input("SQLite数据库文件名(默认: dump): ").strip() or "dump"}.db'
         match input('''迁移模式选择(默认: Personal): \n1. Standard\n2. Mini\n3. Personal\n4. Anime\n5. JapanAnime\n''').strip().lower():
             case "1" | "standard" | "s":
                 migrator = StandardMigrator.StandardMigrator()

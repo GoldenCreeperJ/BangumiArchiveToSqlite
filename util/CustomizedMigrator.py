@@ -161,6 +161,9 @@ class AnimeMigrator(PersonalMigrator):
     def insert_subject_person(self, conn):
         return
 
+    def insert_person_relation(self, conn):
+        return
+
 
 class JapanAnimeMigrator(AnimeMigrator):
     def insert_subject(self, conn):

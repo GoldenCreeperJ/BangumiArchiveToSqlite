@@ -184,6 +184,25 @@ class StandardMigrator:
                          item['order']
                          ))
 
+    def insert_person_relation(self, conn):
+        self.migrate_table(conn, 'person_relations', [
+            'person_type TEXT',
+            'person_id INTEGER',
+            'related_person_id INTEGER',
+            'relation_type INTEGER',
+            'spoiler INTEGER',
+            'ended INTEGER',
+            'FOREIGN KEY(person_id) REFERENCES person(id)',
+            'FOREIGN KEY(related_person_id) REFERENCES person(id)'
+            ], lambda item: (item['person_type'],
+                             item['person_id'],
+                             item['related_person_id'],
+                             item['relation_type'],
+                             item['spoiler'],
+                             item['ended']
+                             )
+        )
+
     def insert(self, conn):
         """执行全量数据迁移"""
         self.insert_subject(conn)
@@ -202,5 +221,7 @@ class StandardMigrator:
         print("作品-人员关联表创建完成")
         self.insert_subject_relation(conn)
         print("作品-关联作品表创建完成")
+        self.insert_person_relation(conn)
+        print("人物-关联人物表创建完成")
 
         print("\n所有数据表创建完成\n")

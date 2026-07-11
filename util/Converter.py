@@ -83,7 +83,7 @@ def jsonl_to_json():
         以便使用JSON的表格视图功能
     """
     for filename in ["subject", "character", "person", "episode", "subject-characters",
-                     "subject-persons", "subject-relations", "person-characters"]:
+                     "subject-persons", "subject-relations", "person-characters", "person-relations"]:
         json_array = []
 
         with open(f"./input/{filename}.jsonlines", 'r', encoding='utf-8') as f:

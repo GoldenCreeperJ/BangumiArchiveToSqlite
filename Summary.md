@@ -94,3 +94,14 @@
 | SubjectID   | number |       |
 | CharacterID | number |       |
 | Summary     | string | 概要（空） |
+
+##### **PersonRelations(人物之间或角色之间的关联)**
+
+|                     |        |                         |
+|---------------------|--------|-------------------------|
+| `person_type`       | string | 现实人物 `prsn` 或虚拟角色 `crt` |
+| `person_id`         | number | 人物 ID                   |
+| `related_person_id` | number | 关联人物 ID                 |
+| `relation_type`     | number | 关联类型                    |
+| `spoiler`           | bool   | 是否剧透                    |
+| `ended`             | bool   |  是否已结束                  |
