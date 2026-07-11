@@ -5,30 +5,48 @@ import util.Converter as Converter
 class StandardMigrator:
     @staticmethod
     def migrate_table(conn, table_name, columns, process_row, default_columns=None):
-        batch, rows = [], {}
-        conn.executescript(f'''
-            CREATE TABLE IF NOT EXISTS {table_name}({', '.join(columns)});
-            CREATE TABLE temp_{table_name}({', '.join(columns)});
-            ''')
-        if default_columns:
-            rows = {i[0]: i[1:] for i in conn.execute(f"SELECT {','.join(default_columns)} FROM {table_name}")}
+        temp_table = f"temp_{table_name}"
+        old_table = f"old_{table_name}"
+
+        indexes_sql = []
+        if conn.execute(f"SELECT name FROM sqlite_master WHERE type='table' AND name=?", (table_name,)).fetchone():
+            rows = conn.execute(f"SELECT sql FROM sqlite_master WHERE type='index' AND tbl_name=? AND sql IS NOT NULL",(table_name,)).fetchall()
+            indexes_sql = [sql[0].replace(table_name, temp_table) for sql in rows]
+
+        create_sql = f"CREATE TABLE IF NOT EXISTS {temp_table} ({', '.join(columns)});"
+        conn.executescript(create_sql + "\n" + ";\n".join(indexes_sql))
+
+        batch = []
         with (open(f"./input/{'-'.join(table_name.split('_'))}.jsonlines", 'r', encoding='utf-8') as f):
             for line in f:
-                item = process_row(json.loads(line.strip()))
-                if item:
-                    if default_columns:
-                        item += rows.get(item[0], tuple(0 for _ in range(len(default_columns) - 1)))
-                    batch.append(item)
-                    if len(batch) >= 5000:
-                        conn.executemany(
-                            f'''INSERT INTO temp_{table_name} VALUES ({','.join(['?'] * len(batch[0]))})''', batch)
-                        batch.clear()
+                line = line.strip()
+                if not line: continue
+                try:
+                    item = process_row(json.loads(line))
+                except json.JSONDecodeError: continue
+
+                if not item: continue
+                batch.append(item)
+
+                if len(batch) >= 5000:
+                    with conn:
+                        conn.executemany(f"INSERT INTO {temp_table} VALUES ({','.join(['?'] * len(batch[0]))})",batch)
+                    batch.clear()
+
             if batch:
-                conn.executemany(f'''INSERT INTO temp_{table_name} VALUES ({','.join(['?'] * len(batch[0]))})''', batch)
+                with conn:
+                    conn.executemany(f"INSERT INTO {temp_table} VALUES ({','.join(['?'] * len(batch[0]))})",batch)
+
+        if default_columns and len(default_columns) > 1:
+            update_cols = ", ".join([f"{col} = old_t.{col}" for col in default_columns[1:]])
+            conn.execute(f"""UPDATE {temp_table} AS new_t SET {update_cols} 
+                FROM {table_name} AS old_t WHERE new_t.{default_columns[0]} = old_t.{default_columns[0]}""")
+
         with conn:
-            conn.execute(f"ALTER TABLE {table_name} RENAME TO old_{table_name}")
-            conn.execute(f"ALTER TABLE temp_{table_name} RENAME TO {table_name}")
-            conn.execute(f"DROP TABLE IF EXISTS old_{table_name}")
+            if conn.execute(f"SELECT name FROM sqlite_master WHERE type='table' AND name=?", (table_name,)).fetchone():
+                conn.execute(f"ALTER TABLE {table_name} RENAME TO {old_table}")
+            conn.execute(f"ALTER TABLE {temp_table} RENAME TO {table_name}")
+            conn.execute(f"DROP TABLE IF EXISTS {old_table}")
 
     def insert_subject(self, conn):
         self.migrate_table(conn, 'subject', [

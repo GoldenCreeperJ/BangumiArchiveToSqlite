@@ -104,4 +104,4 @@
 | `related_person_id` | number | 关联人物 ID                 |
 | `relation_type`     | number | 关联类型                    |
 | `spoiler`           | bool   | 是否剧透                    |
-| `ended`             | bool   |  是否已结束                  |
+| `ended`             | bool   | 是否已结束                   |
